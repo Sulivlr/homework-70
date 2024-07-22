@@ -14,8 +14,8 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Contacts/>} />
               <Route path="/new-contact" element={<NewContact/>} />
+              <Route path="/Modal" element={<ModalForm/>} />
             </Routes>
-            <ModalForm />
           </main>
         </>
     );

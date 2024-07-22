@@ -7,8 +7,8 @@ const ModalForm = () => {
 
   return (
     <>
-      <div className="modal-backdrop fade show" style={{display: "block"}}></div>
-      <div className="modal" style={{display : "block"}}>
+      <div className="modal-backdrop fade show" style={{display: "none"}}></div>
+      <div className="modal" style={{display : "none"}}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
