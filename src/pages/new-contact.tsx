@@ -2,7 +2,7 @@ import React, { FormEvent, useState } from 'react';
 import { ApiContact } from '../types';
 import ButtonSpinner from '../components/ButtonSpinner/ButtonSpinner';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { createContact } from '../store/contactThunk';
 
 interface Props {
@@ -30,7 +30,7 @@ const NewContact: React.FC<Props> = ({ isCreating = false }) => {
 
   const onFormSubmit = async (event: FormEvent) => {
     event.preventDefault();
-      await dispatch(createContact(contact) as never);
+      await dispatch(createContact(contact));
       navigate('/');
   };
 
