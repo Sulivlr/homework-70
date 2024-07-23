@@ -1,33 +1,55 @@
 import React from 'react';
-import {useAppDispatch} from '../app/hooks';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
+import {
+  closeModal,
+  selectContactAreFetching,
+  selectContactId,
+  selectContacts,
+  selectModalOpen
+} from '../store/contactSlice';
+import Spinner from '../components/Spinner/Spinner';
 
 const ModalForm = () => {
-
-
-  // const displayStyle = (display: isOpen ? "block" : "none");
+  const dispatch = useAppDispatch();
+  const contacts = useAppSelector(selectContacts);
+  const isFetching = useAppSelector(selectContactAreFetching);
+  const isOpen = useAppSelector(selectModalOpen);
+  const contactId = useAppSelector(selectContactId);
+  const displayStyle = {display: isOpen ? 'block' : 'none'};
+  const selectedContact = contacts.find(contact => contact.id === contactId);
 
   return (
     <>
-      <div className="modal-backdrop fade show" style={{display: "none"}}></div>
-      <div className="modal" style={{display : "none"}}>
+      <div className="modal-backdrop fade show" style={displayStyle}></div>
+      <div className="modal" style={displayStyle}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <button type="button" className="btn-close"></button>
-            </div>
-            <div className="modal-body d-flex justify-content-around">
-              <div style={{width:'40%' }}>
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgolBdeaXdt7hZ4G28YiA8shOCg4jkBg08uA&s" alt="photo"/>
-
+              <button type="button" className="btn-close" onClick={() => dispatch(closeModal())}></button>
             </div>
             <div>
-              <h4 className="mb-4">John Shepard</h4>
-              <p className="mt-5">+996 555 555 555</p>
-              <p>john@gmail.com</p>
-            </div>
+              {isFetching ? (
+                <Spinner />
+              ) : (
+                selectedContact && (
+                  <div className="modal-body d-flex justify-content-around">
+                    <div style={{width: '40%'}}>
+                      <img
+                        src={selectedContact.photo}
+                        alt="photo"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="mb-4">{selectedContact.name}</h4>
+                      <p className="mt-5">{selectedContact.phone}</p>
+                      <p>{selectedContact.email}</p>
+                    </div>
+                  </div>
+                )
+              )}
             </div>
             <div className="modal-footer">
-              <button type="button" className="btn btn-danger" >Delete</button>
+              <button type="button" className="btn btn-danger">Delete</button>
               <button type="button" className="btn btn-primary">Edit</button>
             </div>
           </div>

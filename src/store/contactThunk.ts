@@ -1,7 +1,6 @@
 import {createAsyncThunk} from '@reduxjs/toolkit';
 import {ApiContact, ApiContacts, Contact} from '../types';
 import axiosApi from '../axiosApi';
-import {RootState} from '../app/store';
 
 export const createContact = createAsyncThunk<void, ApiContact>(
   'contact/create', async (apiContact) => {

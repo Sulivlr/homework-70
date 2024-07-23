@@ -2,7 +2,7 @@ import React, { FormEvent, useState } from 'react';
 import { ApiContact } from '../types';
 import ButtonSpinner from '../components/Spinner/ButtonSpinner';
 import { useNavigate } from 'react-router-dom';
-import { createContact } from '../store/contactThunk';
+import {createContact, fetchContact} from '../store/contactThunk';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
 import {selectContactIsCreating} from '../store/contactSlice';
 
@@ -34,6 +34,7 @@ const NewContact: React.FC = () => {
     event.preventDefault();
       await dispatch(createContact(contact));
       navigate('/');
+      dispatch(fetchContact());
   };
 
   return (

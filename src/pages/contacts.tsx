@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from '../app/hooks';
-import {selectContactAreFetching, selectContacts} from '../store/contactSlice';
+import {openModal, selectContactAreFetching, selectContacts} from '../store/contactSlice';
 import {fetchContact} from '../store/contactThunk';
 import Spinner from '../components/Spinner/Spinner';
+import ModalForm from './ModalForm';
 
 const Contacts = () => {
   const dispatch = useAppDispatch();
@@ -13,11 +14,15 @@ const Contacts = () => {
     dispatch(fetchContact());
   }, [dispatch]);
 
+  const open = (contactId) => {
+    dispatch(openModal(contactId));
+  };
+
   return (
     <div className="container-fluid">
       <div className="card-body col-3">
         {isFetching ? (<Spinner/>) : contacts.map((contact) => (
-          <div className="card d-flex flex-row mt-4" key={contact.id}>
+          <div className="card d-flex flex-row mt-4" onClick={() => open(contact.id)} key={contact.id}>
             <img
               src={contact.photo}
               alt="photo"
@@ -27,6 +32,7 @@ const Contacts = () => {
           </div>
         ))}
       </div>
+      <ModalForm />
     </div>
   );
 };
