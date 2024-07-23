@@ -1,16 +1,16 @@
-import {ApiContact, FormInfo} from '../types';
+import {ApiContact} from '../types';
 import {createSlice} from '@reduxjs/toolkit';
-import {createContact} from './contactThunk';
+import {createContact, fetchContact} from './contactThunk';
 
 export interface ContactState {
   contact: ApiContact[];
-  isLoading: boolean;
+  isFetching: boolean;
   isCreating: boolean;
 }
 
 const initialState: ContactState = {
   contact: [],
-  isLoading: false,
+  isFetching: false,
   isCreating: false,
 };
 
@@ -25,8 +25,25 @@ export const contactSlice = createSlice<ContactState>({
       state.isCreating = false;
     }).addCase(createContact.rejected, (state) => {
       state.isCreating = false;
+    }).addCase(fetchContact.pending, (state) => {
+      state.isFetching = true;
+    }).addCase(fetchContact.fulfilled, (state, action) => {
+      state.isFetching = false;
+      state.contact = action.payload;
+    }).addCase(fetchContact.rejected, (state) => {
+      state.isFetching = false;
     });
+  },
+  selectors: {
+    selectContactIsCreating: (state) => state.isCreating,
+    selectContactAreFetching: (state) => state.isFetching,
+    selectContacts: (state) => state.contact,
   }
 });
 
 export const contactReducer = contactSlice.reducer;
+export const {
+  selectContactIsCreating,
+  selectContactAreFetching,
+  selectContacts
+} = contactSlice.selectors;

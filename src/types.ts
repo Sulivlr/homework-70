@@ -9,6 +9,6 @@ export interface Contact extends ApiContact {
   id: string;
 }
 
-export interface Contacts {
+export interface ApiContacts {
   [id: string]: ApiContact
 }

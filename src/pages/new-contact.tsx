@@ -1,13 +1,14 @@
 import React, { FormEvent, useState } from 'react';
 import { ApiContact } from '../types';
-import ButtonSpinner from '../components/ButtonSpinner/ButtonSpinner';
+import ButtonSpinner from '../components/Spinner/ButtonSpinner';
 import { useNavigate } from 'react-router-dom';
-import {useDispatch} from 'react-redux';
 import { createContact } from '../store/contactThunk';
+import {useAppDispatch, useAppSelector} from '../app/hooks';
+import {selectContactIsCreating} from '../store/contactSlice';
 
-interface Props {
-  isCreating?: boolean;
-}
+
+
+
 
 const initialState: ApiContact = {
   name: '',
@@ -16,8 +17,9 @@ const initialState: ApiContact = {
   photo: '',
 };
 
-const NewContact: React.FC<Props> = ({ isCreating = false }) => {
-  const dispatch = useDispatch();
+const NewContact: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const isCreating = useAppSelector(selectContactIsCreating);
   const [contact, setContact] = useState<ApiContact>(initialState);
   const navigate = useNavigate();
 
@@ -83,7 +85,9 @@ const NewContact: React.FC<Props> = ({ isCreating = false }) => {
       </div>
 
       <div className="mt-3">
-        <button type="submit" className="btn btn-success me-4" disabled={isCreating}>
+        <button type="submit"
+                className="btn btn-success me-4"
+                disabled={isCreating}>
           Save
           {isCreating && <ButtonSpinner />}
         </button>
